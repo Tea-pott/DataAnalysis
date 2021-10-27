@@ -9,3 +9,6 @@ Each Jupyter Notebook contains the code and explaination of a data analysis proj
 
 3. I-94 Interstate highway traffic 
 - Using weather and time related data to find indicators for high volume of traffic 
+
+4. Exchange rate visualization
+- Using object oriented interface of Matplotlib to visualize the Euro-USD exchange rate during the Pandemic (2016-2020)
