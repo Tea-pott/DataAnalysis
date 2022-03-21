@@ -12,3 +12,6 @@ Each Jupyter Notebook contains the code and explaination of a data analysis proj
 
 4. Exchange rate visualization
 - Using object oriented interface of Matplotlib to visualize the Euro-USD exchange rate during the Pandemic (2016-2020)
+
+5. Covid Data exploration
+- Using SQL to explore the covid data (Data origin: https://ourworldindata.org/covid-deaths)
