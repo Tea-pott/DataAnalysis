@@ -1,31 +1,33 @@
---SELECT *
---FROM SQL_Project..[covid-death]
+SELECT *
+FROM SQL_Project..[covid-death]
 
---SELECT *
---FROM SQL_Project..[covid-vaccinations]
+SELECT *
+FROM SQL_Project..[covid-vaccinations]
 
 
 -- Selecting the data
 
---SELECT location, date, total_cases, new_cases, total_deaths, population
---FROM SQL_Project..[covid-death]
---order by 1,2
+SELECT location, date, total_cases, new_cases, total_deaths, population
+FROM SQL_Project..[covid-death]
+order by 1,2
+
 
 --Total Cases vs. Total Deaths (What percent of infected people passed away )
 
---SELECT location, date, total_cases, total_deaths, round((total_deaths/total_cases)*100, 2) AS death_percent
---From SQL_Project..[covid-death]
---WHERE continent is not null
-----Where location = 'Germany'
---order by 1,2
+SELECT location, date, total_cases, total_deaths, round((total_deaths/total_cases)*100, 2) AS death_percent
+From SQL_Project..[covid-death]
+WHERE continent is not null
+--Where location = 'Germany'
+order by 1,2
+
 
 -- Total cases vs. Population (What percent of population got infected so far from 2020-01-27)
 
---SELECT location, date, total_cases, population, (total_cases/population)*100 AS Infected_population_perc
---From SQL_Project..[covid-death]
---WHERE continent is not null
-----Where location = 'Germany'
---order by 1,2
+SELECT location, date, total_cases, population, (total_cases/population)*100 AS Infected_population_perc
+From SQL_Project..[covid-death]
+WHERE continent is not null
+order by 1,2
+
 
 -- Countries in the order of Infection rate till 24-01-2022 (Percent of the population infected with Covid-19)
 
@@ -36,6 +38,7 @@ WHERE continent is not null
 Group by location, population
 order by Infected_population_perc desc
 
+
 -- Countries in order of Death rate till 24-01-2022 (Percent of population died of Covid-19)
 
 SELECT location, MAX(cast (total_deaths as int)) as Highest_death_count, population, MAX((total_deaths/population)*100) as population_perc_died
@@ -44,6 +47,7 @@ WHERE continent is not null
 --Where location = 'Germany'
 Group by location, population
 order by population_perc_died desc
+
 
 -- Countries in order of Death count
 
@@ -62,13 +66,15 @@ WHERE continent is null
 Group by location
 Order by Total_daeth_count desc
 
+
 -- Total population in order of continets
 
---SELECT sum(population) as continent_pop, continent
---From SQL_Project..[covid-death]
---WHERE continent in ('North America', 'South America', 'Asia', 'Africa', 'Oceania', 'Europe') and date in (SELECT Max(date) 
---From SQL_Project..[covid-death])
---Group by continent
+SELECT sum(population) as continent_pop, continent
+From SQL_Project..[covid-death]
+WHERE continent in ('North America', 'South America', 'Asia', 'Africa', 'Oceania', 'Europe') and date in (SELECT Max(date) 
+From SQL_Project..[covid-death])
+Group by continent
+
 
 -- Continents with the highest death rate (Percent of population died of Covid)
 
@@ -77,6 +83,8 @@ From SQL_Project..[covid-death]
 WHERE continent is null
 Group by population, location
 Order by Total_daeth_rate desc
+
+
 
 
 --- Global Figures
@@ -89,6 +97,7 @@ From SQL_Project..[covid-death]
 WHERE continent is not null
 Group by date
 Order by 1,2
+
 
 -- 2. Total cases and death as of 24-01-2022
 
@@ -109,6 +118,7 @@ WHERE dea.continent is not null
 Group by dea.location, population
 Order by Total_vaccination desc
 
+
 -- 4. Total population vs. Vaccination daily stats 
 
 SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
@@ -118,6 +128,7 @@ Join SQL_Project..[covid-vaccinations] vac
 	and dea.date = vac.date
 WHERE dea.continent is not null
 Order by 2,3
+
 
 -- 5. Rolling count of vaccination
 
@@ -130,6 +141,7 @@ Join SQL_Project..[covid-vaccinations] vac
 	and dea.date = vac.date
 WHERE dea.continent is not null
 Order by 2,3
+
 
 -- 6. Rollong percent of vaccination per country population (Use of CTE) (Not to confuse with percent of population taken first, second or third dose)  
 
@@ -177,6 +189,7 @@ WHERE dea.continent is not null
 Select *, (Rolling_vac_count/population)*100 as Vaccination_perc_population 
 From #Perc_pop_vaccinated 
 order by location, date
+
 
 
 -- Create View to store data for later visualizations 
